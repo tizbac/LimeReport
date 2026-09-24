@@ -478,10 +478,15 @@ target_include_directories( ${PROJECT_NAME} INTERFACE
 list (APPEND GLOBAL_HEADERS ${EXTRA_FILES})
 set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER "${GLOBAL_HEADERS}")
 
+# Installa solo quando LimeReport e' il progetto principale: come
+# sotto-progetto la libreria statica viene linkata dentro l'eseguibile
+# del progetto padre e non deve finire nel suo pacchetto
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
 install(TARGETS
 	${PROJECT_NAME}
 	ARCHIVE DESTINATION lib
 	LIBRARY DESTINATION lib
 	RUNTIME DESTINATION bin
 	PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/limereport)
+endif()
 
